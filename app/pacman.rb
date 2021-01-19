@@ -1,11 +1,13 @@
-# frozen_string_literal: true
+, # frozen_string_literal: true
+
+require File.join(File.dirname(__FILE__), 'gameboard')
 
 class Pacman
 
     attr_reader: @pacman, @pos_x, :pos_y
     def initialize 
         default_position 
-@pacamman = ''v
+        @pacamman = ''v
     end
 
     def default_position
@@ -28,4 +30,13 @@ class Pacman
             @pacman = '>'
         end
     end
+
+
+    def actual_position(value)
+        actual = @gameboard[@pos_x][@pos_y]
+    end
 end
+
+game = Gameboard.new
+game.mundo
+game.print_board
