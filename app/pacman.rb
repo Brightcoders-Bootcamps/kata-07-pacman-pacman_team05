@@ -1,13 +1,14 @@
-, # frozen_string_literal: true
+# frozen_string_literal: true
 
 require File.join(File.dirname(__FILE__), 'gameboard')
 
+# Pacman is where we give the methods and attributes 
 class Pacman
 
-    attr_reader: @pacman, @pos_x, :pos_y
+    attr_reader :pacman, :pos_x, :pos_y
     def initialize 
         default_position 
-        @pacamman = ''v
+        @pacman = 'v'
     end
 
     def default_position
@@ -19,7 +20,7 @@ class Pacman
         @score += 1
     end
 
-    def movement(value)
+    def position(value)
         if ['w']
             @pacman = 'v'
         elsif['s']
@@ -34,9 +35,10 @@ class Pacman
 
     def actual_position(value)
         actual = @gameboard[@pos_x][@pos_y]
+        puts actual
+        add_score if actual_position = '. '
     end
 end
 
-game = Gameboard.new
-game.mundo
-game.print_board
+
+
