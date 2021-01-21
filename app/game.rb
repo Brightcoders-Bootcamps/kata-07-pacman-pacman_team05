@@ -9,3 +9,9 @@ game.world #general el mundo
 game.initial_position(@pos_x, pos_y, @pacman) #* hace que el pacman se posicione
 game.modify_position(pac.actual_position)
 game.print_board
+
+loop do
+    action = STDIN.gets
+    gameboard.verify_wall(action)
+    break if ['x']
+end

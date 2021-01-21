@@ -30,12 +30,12 @@ class Pacman
         elsif['a']
             @pacman = '>'
         end
+        
     end
 
 
     def actual_position(value)
         actual = @gameboard[@pos_x][@pos_y]
-        puts actual
         add_score if actual_position = '. '
     end
 end

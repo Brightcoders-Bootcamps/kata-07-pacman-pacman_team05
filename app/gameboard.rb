@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
-require File.join(File.dirname(__FILE__), 'pacman')
+#require File.join(File.dirname(__FILE__), 'pacman')
 # The Gameboard class is where the game is excuted 
 class Gameboard
-  attr_reader :gameboard, :pacman
+  #attr_reader :gameboard, :pacman
 
   def initialize
-    @pacman = pacman
+    #@pacman = pacman
     @gameboard = []
+    @plus = 1
+    @less = -1
   end
 
   #! imprime el mundo
   def print_board
-    puts "\n\t SCORE:  #{@pacman.score}"
+    #puts "\n\t SCORE:  #{@pacman.score}"
     @gameboard.each do |row|
         row.each {|value| print value}
         puts "\n"
@@ -31,17 +33,31 @@ class Gameboard
     @gameboard.push([". ", ". ", ". ", ". ", ". ", ". ", ". ", "| ", ". ", "| "])
   end
 
+  def modify_up(posx, posy, pos)
+    modify_position(posx + @less, posy, "v ")
+    modify_position(posx, posy, ". ")
+  end
 
-  def verify_wall
-    for i in 0..9
-      for j in 0..9
-        if @gameboard[i][j] == "| " or @gameboard[i][j] == "_ "
-          #! no deberia poder pasar a esa posicion
-        else
-          #! debe de poder pasar a esa posición 
-        end
-      end
-    end
+  def modify_down(posx, posy, pos)
+    modify_position(posx + @plus, posy, "^ ")
+    modify_position(posx, posy, ". ")
+  end
+
+  def modify_left(posx, posy, pos)
+    modify_position(posx, posy + @less, "> ")
+    modify_position(posx, posy, ". ")
+  end
+
+  def modify_right(posx, posy, pos)
+    modify_position(posx, posy + @plus, "< ")
+    modify_position(posx, posy, ". ")
+  end
+
+  def verify_wall(posx, posy, pos)
+    return modify_left(posx, posy, pos) if pos == "a" and @gameboard[posx][posy + @less] != "| "
+    return modify_up(posx, posy, pos) if pos == "w" and @gameboard[posx + @less][posy] != "_ "
+    return modify_right(posx, posy, pos) if pos == "d" and @gameboard[posx][posy + @plus] != "! "
+    return modify_down(posx, posy, pos) if pos == "s" and @gameboard[posx + @plus][posy] != "_ "
   end
 
   #! define la posicion inicial del pacman
@@ -49,28 +65,19 @@ class Gameboard
     @gameboard[px][py] = d
   end
 
-  def modify_position(px, py, d)
-    for i in -1..1
-      for j in -1..1
-                #! position 3,3 pacman
-                #! posiciones a buscar
-                #! 2,2 3,2 y 4,3 3,4
-                #!  3   3
-                #! 3-1 3-1   2,2
-                #! 3-0 3-1   3,2
-                #! 3+1 3,0   4,3
-                #! 3+0 3+1
-        @gameboard[px][py] == "| " or @gameboard[px][py] == "_ "
-        
-      end
-    end
 
-
-    @gameboard[position_x][position_y] = direction
+  def modify_position(posx, posy, pos)
+    @gameboard[posx][posy] = pos
+    print_board
   end
 end
 
 game = Gameboard.new
 game.world
-game.verify_wall
+game.initial_position(4, 2, "< ")
+game.print_board
+game.verify_wall(4, 2, "d")
+
+
+#game.initial_position(3, 2, ">")
 #game.print_board
